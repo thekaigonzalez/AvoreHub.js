@@ -53,7 +53,13 @@ function ASTCompileAvore(str) {
             place = place + str[i];
         }
     }
-
+    if (state != 0) {
+        return {
+            "error": {
+                "msg": "avoreast.js:59:trace: state!=0 is true. please check the syntax again."
+            }
+        }
+    }
     return {
             "class": {
                 "name": classname,
@@ -70,3 +76,9 @@ function av_pushtable(n, d) {
 function av_pushjsfunction(n, d) {
     jfuncs[n] = d;
 }
+
+
+module.exports.av_pushjsfunction = av_pushjsfunction
+module.exports.av_pushtable = av_pushtable
+
+module.exports.compile = ASTCompileAvore
