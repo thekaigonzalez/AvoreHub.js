@@ -14,3 +14,25 @@ console.log(ASTCompileAvore("av.msg[\"hello! world\", 1]"))
      func_args: [ 'hello! world', '1' ] } }
 
 ```
+
+## Docs
+
+```js
+
+(alias) compile(str: any): {
+    error: {
+        msg: string;
+    };
+    class?: undefined;
+} | {
+    class: {
+        name: string;
+        func_name: string;
+        func_args: string[];
+    };
+    error?: undefined;
+}
+import compile
+
+```
+
