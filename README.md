@@ -2,4 +2,4 @@
 
 Unofficial avore.js AST implementation
 
-(this is not meant to be used as a replacement for AvoreHub!!!!)
+(this is not meant to be used as a replacement for AvoreHub!!! (when it comes))
