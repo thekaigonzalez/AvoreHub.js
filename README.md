@@ -15,6 +15,14 @@ console.log(ASTCompileAvore("av.msg[\"hello! world\", 1]"))
 
 ```
 
+
+```js
+console.log(ASTCompileAvore("msg[\"hello! world\", 1]"))
+
+
+{ func: { args: [ '1', '2', '3' ], name: 'msg' } }
+
+```
 ## Docs
 
 ```js
