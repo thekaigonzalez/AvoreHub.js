@@ -2,6 +2,12 @@
 
 Unofficial avore.js AST implementation
 
+This is meant to give a brief semantic analysis on Avore.js code.
+
+If the developers did use this implementation then that would be nice!
+
+I'll try my best to keep it up to date with the latest Avore.js updates.
+
 (this is not meant to be used as a replacement for AvoreHub!!! (when it comes))
 
 ```js
@@ -35,6 +41,21 @@ console.log(avore.compile("var c = 123"))
      isassignment: true,
      assignname: 'c',
      assignval: '123' } }
+
+```
+
+```js
+
+const avore = require("./AvoreAST")
+
+console.log(avore.compile("if [c => 123] { av.msg[nine] }"))
+
+{ special:
+   { body: 'av.msg[nine]',
+     name: '123',
+     special_keyword: true,
+     other: 'c',
+     kname: 'if' } }
 
 ```
 

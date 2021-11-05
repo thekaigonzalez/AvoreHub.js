@@ -3,6 +3,8 @@
 /* function parameters are pretty controversial, so here's a way to change them */
 var T_PARAMOP = '[';
 var T_PARAMCL = ']';
+var T_COMP = '[';
+var T_COMP_END = ']';
 
 var tables = {}
 
@@ -19,11 +21,13 @@ function ASTCompileAvore(str) {
 
     let iskey = false;
     let comment = false;
+    let isspecial = false;
     let isassign = false;
 
 
     let keyword = "";
     let assignval = "";
+    let others = "";
     let assignname = "";
     let funcname = "";
 
@@ -60,6 +64,40 @@ function ASTCompileAvore(str) {
             assignname = place;
             isassign = true;
             place = ""; /* let it collect the rest */
+        } else if (str[i] == T_COMP && state == 69) {
+            state = 90;
+            isassign  = 'is comparison statement'
+            place = "";
+            continue;
+        } else if (str[i] == '=' && state == 90) { /* then it's in an if block */
+            if (str[i++] == '=') { /* if it's an comparison */
+                  others = place;
+                  state = 299;
+                  place = ""; /* reset buffer */
+            } else {
+                return {
+                    "error": {
+                        "ASTError": {
+                            message: "illegal operation: cannot sign"
+                        }
+                    }
+                }
+            }
+        } else if (str[i] == T_COMP_END && state == 299) {
+            assignval = place;
+            place = "";
+            isspecial = true;
+            state = 777; // 777: expects body of code
+            continue;
+        } else if (str[i] == '{' && state == 777) {
+            place = "";
+            state = 999;  
+        } else if (str[i] == '}' && state == 999) {
+            assignname = place;
+            // console.log("end if body :" + place + ":");
+            place = "";
+            state = 0;
+            break;
         } else if (str[i] == T_PARAMCL && state == 98) {
            state = 0; 
            if (place.length > 0) {
@@ -86,6 +124,17 @@ function ASTCompileAvore(str) {
         }
     }
 
+    if (isspecial) {
+        return {
+            "special": {
+                "body": assignname.trim(),
+                "name": assignval.trim(),
+                "special_keyword": isspecial,
+                "other": others.trim(),
+                "kname": keyword
+            }
+        }
+    }
     if (iskey) {
         if (place.length > 0) {
             assignval = place;
