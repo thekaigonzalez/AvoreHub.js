@@ -6,7 +6,7 @@ Unofficial avore.js AST implementation
 
 ```js
 
-console.log(ASTCompileAvore("av.msg[\"hello! world\", 1]"))
+console.log(avore.compile("av.msg[\"hello! world\", 1]"))
 
 { class:
    { name: 'av',
@@ -17,12 +17,27 @@ console.log(ASTCompileAvore("av.msg[\"hello! world\", 1]"))
 
 
 ```js
-console.log(ASTCompileAvore("msg[\"hello! world\", 1]"))
+console.log(avore.compile("msg[\"hello! world\", 1]"))
 
 
 { func: { args: [ '1', '2', '3' ], name: 'msg' } }
 
 ```
+
+```js
+
+const avore = require("./AvoreAST")
+
+console.log(avore.compile("var c = 123"))
+
+{ statement:
+   { key: 'var',
+     isassignment: true,
+     assignname: 'c',
+     assignval: '123' } }
+
+```
+
 ## Docs
 
 ```js

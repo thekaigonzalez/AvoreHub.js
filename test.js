@@ -1,3 +1,3 @@
 const avore = require("./AvoreAST")
 
-console.log(avore.compile("msg[1,2,3]"))
+console.log(avore.compile("var c = 123"))
