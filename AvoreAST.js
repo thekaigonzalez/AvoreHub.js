@@ -34,7 +34,10 @@ function ASTCompileAvore(str) {
            place = ""; 
         } else if (str[i] == '[' && state == 0) {
             funcname = place;
+
             place = "";  
+
+            state = 98;
         } else if (str[i] == ']' && state == 98) {
            state = 0; 
            if (place.length > 0) {
@@ -57,6 +60,15 @@ function ASTCompileAvore(str) {
         return {
             "error": {
                 "msg": "avoreast.js:59:trace: state!=0 is true. please check the syntax again."
+            }
+        }
+    }
+
+    if (funcname.length > 0) {
+        return {
+            "func": {
+                "args": funcargs,
+                "name": funcname
             }
         }
     }
