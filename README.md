@@ -63,20 +63,37 @@ console.log(avore.compile("if [c => 123] { av.msg[nine] }"))
 
 ```js
 
-(alias) compile(str: any): {
+ compile(str: any): {
     error: {
-        msg: string;
+        ASTError: {
+            message: string;
+        };
+        msg?: undefined;
     };
+    special?: undefined;
+    statement?: undefined;
+    func?: undefined;
     class?: undefined;
 } | {
-    class: {
-        name: string;
-        func_name: string;
-        func_args: string[];
+    error: {
+        msg: string;
+        ASTError?: undefined;
     };
-    error?: undefined;
+    special?: undefined;
+    statement?: undefined;
+    func?: undefined;
+    class?: undefined;
+} | {
+    ...;
+} | {
+    ...;
+} | {
+    ...;
+} | {
+    ...;
 }
 import compile
+
 
 ```
 
