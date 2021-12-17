@@ -40,11 +40,7 @@ function ASTCompileAvore(str) {
 
         // let next = str[i++];
 
-        if (str[i] == '.' && state == 0) {
-            state = 12
-            classname = place;
-            place = "";
-        } else if (str[i] == T_PARAMOP && state == 12) {
+        if (str[i] == T_PARAMOP && state == 12) {
            state = 98;
            classfunc = place;
            place = ""; 

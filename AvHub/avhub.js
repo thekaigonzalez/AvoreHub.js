@@ -1,6 +1,7 @@
 /// AvHub is a test native implementation of avore.js
 
 const avore = require("../AvoreAST")
+const deepslate = require("DeepSlate")
 const psync = require("prompt-sync")();
 
 function printFunction(args) {
@@ -12,9 +13,13 @@ function testFunc(args) {
 }
 var modules = {
     "av": {
-        "print": printFunction
+        "system": {
+            "print": printFunction
+        }
     }
 }
+
+var vs = {}
 
 var funcmodules = {
     "test": testFunc
@@ -29,30 +34,22 @@ function RunAvore(code) {
     }
 
     if (ast.func != null) {
-        if (funcmodules[ast.func.name] == null) {
+        if (deepslate.traverse(modules, ast.func.name) == null) {
             console.log("error: function " + ast.func.name + " does not exist") 
         } else {
-            funcmodules[ast.func.name](ast.func.args)
+            deepslate.traverse(modules, ast.func.name)(ast.func.args)
         }
-    } else if (ast.class != null) {
-        let cname = ast.class.name || null
-        let cfun = ast.class.func_name
-        let cargs = ast.class.func_args
-        if (modules[cname] == null) {
-            console.log("error: avorenative: class does not exist")
-        } else {
-            if (modules[cname][cfun] == null) {
-                console.log("error: avorenative: class " + cname + ": could not find a definition for " + cfun)
-            } else {
-                modules[cname][cfun](cargs)
-            }
+    } else if (ast.statement !== null) {
+        if (ast.statement.key == "var") {
+            
         }
-        
     }
 }
 
+console.log("Native AvoreHub")
+
 while (true) {
-    const code = psync("")
+    const code = psync(">>>")
 
     RunAvore(code)
 }
